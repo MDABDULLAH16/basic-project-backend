@@ -2,8 +2,9 @@ import { Request, Response } from "express";
  
 import sendResponse from "../../../utils/sendResponse.js";
 import { HttpStatus } from "http-status-ts";
+import catchAsync from "../../../utils/catchAsync.js";
 
-const createUserReq =async (req:Request,res:Response) => {
+const createUserReq =catchAsync(async (req:Request,res:Response) => {
     const result = await req.body; 
     console.log(result);
     
@@ -13,7 +14,7 @@ const createUserReq =async (req:Request,res:Response) => {
     message: "User created successfully.",
     data: result,
   });
-};
+})
 
 export const UserController = {
     createUserReq
