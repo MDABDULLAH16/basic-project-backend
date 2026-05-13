@@ -1,23 +1,53 @@
-import http from "http";
-import env from "./app/config/env.js";
+import { Server } from "http";
 import app from "./app.js";
+import env from "./app/config/env.js";
+ 
 
-const port = env.port;
+let server: Server;
 
-const server = http.createServer(app);
+const bootstrap = async () => {
+  try {
+    server = app.listen(env.port, () => {
+      console.log(`Server is running on port ${env.port}`);
+    });
+  } catch (err) {
+    console.log("Server running error", err);
+  }
+};
 
-server.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+(async () => {
+  await bootstrap();
+})();
+
+process.on("unhandledRejection", (err) => {
+  console.log("Unhandled Rejection Detected", err);
+  if (server) {
+    server.close(() => {
+      process.exit(1);
+    });
+  } else {
+    process.exit(1);
+  }
 });
 
-// const gracefulShutdown = () => {
-//   console.log("Shutting down server...");
+process.on("uncaughtException", (err) => {
+  console.log("Uncaught Exception Detected", err);
+  if (server) {
+    server.close(() => {
+      process.exit(1);
+    });
+  } else {
+    process.exit(1);
+  }
+});
 
-//   server.close(() => {
-//     console.log("Server closed successfully");
-//     process.exit(0);
-//   });
-// };
-
-// process.on("SIGINT", gracefulShutdown);
-// process.on("SIGTERM", gracefulShutdown);
+process.on("SIGTERM", () => {
+  console.log("SIGTERM signal received - server shutting down gracefully");
+  if (server) {
+    server.close(() => {
+      process.exit(0);
+    });
+  } else {
+    process.exit(0);
+  }
+});
