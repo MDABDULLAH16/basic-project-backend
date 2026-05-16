@@ -13,4 +13,5 @@ model User{
   password String
   age Int?
   phone Int
+  isVerified Boolean
 }
