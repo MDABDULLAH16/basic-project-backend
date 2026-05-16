@@ -20,6 +20,8 @@ export const userSchema = z.object({
   phone: z
     .number("Phone number is required")
     .int({ message: "Phone must be a valid integer" }),
+
+  otp: z.number("OTP number is required").optional(),
 });
 
 export type TUser = z.infer<typeof userSchema>;

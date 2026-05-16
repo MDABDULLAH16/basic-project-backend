@@ -13,5 +13,6 @@ model User{
   password String
   age Int?
   phone Int
-  isVerified Boolean
+  isVerified Boolean @default(false)
+  otp Int?
 }

@@ -13,7 +13,20 @@ const createUserReq = catchAsync(async (req: Request, res: Response) => {
     message: "User created successfully.",
     data: result,
   });
+
 });
+
+const VerifyOTPReq = catchAsync(async (req: Request, res: Response) => {
+  const result = await UserService.verifyOTP(req.body);
+   sendResponse(res, {
+     statusCode: HttpStatus.OK,
+     success: true,
+     message: "OTP Matched! you can login now!",
+     data: result,
+   });
+
+})
+
 const loginUserReq = catchAsync(async (req: Request, res: Response) => {
   const result = await UserService.userLogin(req.body);
   sendResponse(res, {
@@ -26,5 +39,6 @@ const loginUserReq = catchAsync(async (req: Request, res: Response) => {
 
 export const UserController = {
   createUserReq,
-  loginUserReq
+  loginUserReq,
+  VerifyOTPReq,
 };

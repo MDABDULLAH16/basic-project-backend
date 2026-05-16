@@ -1,6 +1,5 @@
- import  dotenv  from  'dotenv' ;
-import path from 'path';
- 
+import dotenv from "dotenv";
+import path from "path";
 
 dotenv.config({ path: path.join(process.cwd(), ".env") });
 const env = {
@@ -10,5 +9,7 @@ const env = {
   database_url: process.env.DATABASE_URL as string,
   jwt_secret: process.env.JWT_ACCESS_SECRET as string,
   jwt_expired: process.env.JWT_EXPIRES_IN as string,
+  email_user: process.env.EMAIL_USER as string,
+  email_pass: process.env.EMAIL_PASS as string,
 };
 export default env;
